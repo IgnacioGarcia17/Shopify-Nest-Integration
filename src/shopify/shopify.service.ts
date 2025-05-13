@@ -3,6 +3,13 @@ import axios from 'axios';
 import * as crypto from 'crypto';
 import { ConfigService } from '@nestjs/config';
 
+interface IshopifyCompanyConfig {
+    shop: string;
+    apiSecret: string;
+    apiKey: string;
+}
+type TshopifyBearerToken = `Bearer ${string}`;
+
 @Injectable()
 export class ShopifyService {
     private readonly apiKey: string;
@@ -54,4 +61,43 @@ export class ShopifyService {
 
         return tokenResponse.data.access_token;
     }
+
+
+
+    /**
+     * GET CLIENT
+     */
+    private async _getShopifyClientBearerToken(shopifyCompanyConfig: IshopifyCompanyConfig): Promise<TshopifyBearerToken> {
+
+        return `Bearer `;
+    }
+
+
+    /**
+     * GET PRODUCTS
+     */
+    async getProducts(shopifyCompanyConfig): Promise<any> {
+
+        let shopClientBearerToken = this._getShopifyClientBearerToken(shopifyCompanyConfig);
+
+        return {
+
+        }
+    }
+
+    /**
+     * GET ORDERS
+     */
+    async getOrders(shopifyCompanyConfig): Promise<any> {
+
+        let shopClientBearerToken = this._getShopifyClientBearerToken(shopifyCompanyConfig);
+
+        return {
+
+        }
+    }
+
+
+
 }
+

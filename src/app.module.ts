@@ -6,10 +6,9 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [ShopifyModule,
-            ConfigModule.forRoot({ isGlobal: true }),
-            ShopifyModule,
+    ConfigModule.forRoot({ isGlobal: true })
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

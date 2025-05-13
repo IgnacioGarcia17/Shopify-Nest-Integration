@@ -20,4 +20,24 @@ export class ShopifyController {
         const accessToken = await this.shopifyService.handleCallback(query);
         return res.json({ accessToken });
     }
+
+    @Get('products')
+    async getProducts() {
+        const products = await this.shopifyService.getProducts({
+            shop: "string",
+            apiSecret: "string",
+            apiKey: "string",
+        });
+        return products;
+    }
+
+    @Get('orders')
+    async getOrders() {
+        const orders = await this.shopifyService.getOrders({
+            shop: "string",
+            apiSecret: "string",
+            apiKey: "string",
+        });
+        return orders;
+    }
 }
