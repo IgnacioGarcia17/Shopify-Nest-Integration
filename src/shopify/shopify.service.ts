@@ -2,13 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as crypto from 'crypto';
 import { ConfigService } from '@nestjs/config';
-
-interface IshopifyCompanyConfig {
-    shop: string;
-    apiSecret: string;
-    apiKey: string;
-}
-type TshopifyBearerToken = `Bearer ${string}`;
+import { IshopifyCompanyConfig, TshopifyBearerToken } from './shopify.types';
 
 @Injectable()
 export class ShopifyService {
@@ -23,12 +17,22 @@ export class ShopifyService {
         this.redirectUri = this.configService.get<string>('SHOPIFY_REDIRECT_URI') ?? (() => { throw new Error('SHOPIFY_REDIRECT_URI is missing'); })();
     }
 
+    /**
+     * 
+     * @param shop 
+     * @returns 
+     */
     getAuthUrl(shop: string): string {
         const state = crypto.randomBytes(16).toString('hex');
         const url = `https://${shop}/admin/oauth/authorize?client_id=${this.apiKey}&scope=${this.scopes}&redirect_uri=${this.redirectUri}&state=${state}`;
         return url;
     }
 
+    /**
+     * Handles the callback from Shopify after authentication.
+     * @param query The query parameters from the callback.
+     * @returns The access token.
+     */
     async handleCallback(query: any): Promise<string> {
         const { shop, hmac, code } = query;
 
@@ -67,37 +71,10 @@ export class ShopifyService {
     /**
      * GET CLIENT
      */
-    private async _getShopifyClientBearerToken(shopifyCompanyConfig: IshopifyCompanyConfig): Promise<TshopifyBearerToken> {
+    async _getShopifyClientBearerToken(shopifyCompanyConfig: IshopifyCompanyConfig): Promise<TshopifyBearerToken> {
 
         return `Bearer `;
     }
-
-
-    /**
-     * GET PRODUCTS
-     */
-    async getProducts(shopifyCompanyConfig): Promise<any> {
-
-        let shopClientBearerToken = this._getShopifyClientBearerToken(shopifyCompanyConfig);
-
-        return {
-
-        }
-    }
-
-    /**
-     * GET ORDERS
-     */
-    async getOrders(shopifyCompanyConfig): Promise<any> {
-
-        let shopClientBearerToken = this._getShopifyClientBearerToken(shopifyCompanyConfig);
-
-        return {
-
-        }
-    }
-
-
 
 }
 
